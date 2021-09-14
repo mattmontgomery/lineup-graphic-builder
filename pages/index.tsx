@@ -24,16 +24,19 @@ const Home: NextPage = () => {
   const [lineup, setLineup] = useState<string>(defaultText);
   const [matchDetail, setMatchDetail] = useState<string>(defaultMatchText);
 
-  const players = lineup?.split(`\n`).map((line): Lineup.Group => {
-    return line.split(",").map((playerText) => {
-      const [name, playerNumber, position] = playerText.trim().split("|") as [
-        string,
-        string,
-        Lineup.PositionValues
-      ];
-      return { name, playerNumber, position };
+  const players = lineup
+    ?.split(`\n`)
+    .filter(Boolean)
+    .map((line): Lineup.Group => {
+      return line.split(",").map((playerText) => {
+        const [name, playerNumber, position] = playerText.trim().split("|") as [
+          string,
+          string,
+          Lineup.PositionValues
+        ];
+        return { name, playerNumber, position };
+      });
     });
-  });
   const [matchTitle, matchDate, subTitle] = matchDetail.split("\n");
   return (
     <div className={styles.container}>
