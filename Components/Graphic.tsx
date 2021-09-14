@@ -96,6 +96,14 @@ export default function Graphic({
           width={fullWidth - 50}
           align="right"
         />
+        <Text
+          text={`lineup-graphic-builder.vercel.app`}
+          fontSize={radius * 0.5}
+          fontFamily="Helvetica Neue"
+          y={fullHeight - 50}
+          width={fullWidth - 50}
+          align="right"
+        />
       </Layer>
       <Layer x={radius * 4} y={150}>
         {players.map((group, idx) => (
