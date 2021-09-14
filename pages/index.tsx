@@ -28,14 +28,15 @@ const Home: NextPage = () => {
     ?.split(`\n`)
     .filter(Boolean)
     .map((line): Lineup.Group => {
-      return line.split(",").map((playerText) => {
-        const [name, playerNumber, position] = playerText.trim().split("|") as [
-          string,
-          string,
-          Lineup.PositionValues
-        ];
-        return { name, playerNumber, position };
-      });
+      return line
+        .split(",")
+        .filter(Boolean)
+        .map((playerText) => {
+          const [name, playerNumber, position] = playerText
+            .trim()
+            .split("|") as [string, string, Lineup.PositionValues];
+          return { name, playerNumber, position };
+        });
     });
   const [matchTitle, matchDate, subTitle] = matchDetail.split("\n");
   return (
