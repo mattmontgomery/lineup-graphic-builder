@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const defaultText = `Rubin|14|center
 Rusnak|11|center-left-3, Kreilach|8|center, Menendez|10|center-right-3
-Ruiz|6|center-left, Everton Luiz|25|center-right
+Ruiz|6|center-left, Besler|13|center-right
 Morgan|3|left, Glad|15|center-left, Silva|30|center-right, Herrera|22|right
 Ochoa|1|center`;
 

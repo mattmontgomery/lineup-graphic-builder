@@ -91,18 +91,17 @@ export default function Graphic({
           />
           <Rect
             x={radius * 6}
-            y={fullHeight * 0.75}
+            y={fullHeight - 200}
             width={fullWidth - radius * 12}
-            height={fullHeight * 0.15}
+            height={125}
             stroke="#ddd"
-            fill="#f0f0f0"
             strokeWidth={8}
           />
           <Rect
             x={radius * 8}
-            y={fullHeight * 0.825}
+            y={fullHeight - 150}
             width={fullWidth - radius * 16}
-            height={fullHeight * 0.075}
+            height={75}
             stroke="#ddd"
             strokeWidth={8}
           />
@@ -110,7 +109,7 @@ export default function Graphic({
             strokeWidth={8}
             stroke="#ddd"
             x={fullWidth / 2}
-            y={fullHeight * 0.75}
+            y={fullHeight - 200}
             width={200}
             angle={180}
             innerRadius={1}
