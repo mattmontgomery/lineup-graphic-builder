@@ -24,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       </footer>
       <footer className={NavStyles.Changelog}>
         <p>
-          <strong>2021-09-13</strong>: Fixed Safari issue with date sorting.
-          Added GD, GF, GA pages. Added options for more rolling-game charts.
+          <strong>2021-09-14</strong>: Initial work on Lineup Graphic Builder.
+          Added text interface for modifying players.
         </p>
       </footer>
     </div>
