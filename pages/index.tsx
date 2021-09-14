@@ -1,9 +1,40 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const defaultText = `Rubin|14|center
+Rusnak|11|center-left-3, Kreilach|8|center, Menendez|10|center-right-3
+Ruiz|6|center-left, Everton Luiz|25|center-right
+Morgan|3|left, Glad|15|center-left, Silva|30|center-right, Herrera|22|right
+Ochoa|1|center`;
+
+const defaultMatchText = `San Jose Earthquakes vs. Real Salt Lake
+Sept. 15, 2021, Avaya Stadium
+Real Salt Lake projected lineup
+`;
+
+const GraphicComponent = dynamic(() => import("../Components/Graphic"), {
+  ssr: false,
+});
 const Home: NextPage = () => {
+  const [lineup, setLineup] = useState<string>(defaultText);
+  const [matchDetail, setMatchDetail] = useState<string>(defaultMatchText);
+
+  const players = lineup?.split(`\n`).map((line): Lineup.Group => {
+    return line.split(",").map((playerText) => {
+      const [name, playerNumber, position] = playerText.trim().split("|") as [
+        string,
+        string,
+        Lineup.PositionValues
+      ];
+      return { name, playerNumber, position };
+    });
+  });
+  const [matchTitle, matchDate, subTitle] = matchDetail.split("\n");
   return (
     <div className={styles.container}>
       <Head>
@@ -13,60 +44,66 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className={styles.title}>Lineup Graphic Builder</h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          Because sometimes, you want to build a lineup graphic.
         </p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+        <GraphicComponent
+          radius={25}
+          players={players}
+          matchDate={matchDate}
+          matchTitle={matchTitle}
+          subTitle={subTitle}
+        />
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
+        <div className={styles.section}>
+          <h3>Lineup input</h3>
+          <textarea
+            className={styles.textarea}
+            onChange={(ev) => setLineup(ev.currentTarget.value)}
           >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
+            {defaultText}
+          </textarea>
+          <p className={styles.helperText}>
+            Formatting: <code>Player Name|Number|position</code>. Separate
+            players in one by commas.
+          </p>
+          <p className={styles.helperText}>
+            {`Position is one of "left", "center-left", "center-left-3", "center",
+            "center-right-3", "center-right", "right"`}
+          </p>
+        </div>
+        <div className={styles.section}>
+          <h3>Match Detail input</h3>
+          <textarea
+            className={styles.textarea}
+            onChange={(ev) => setMatchDetail(ev.currentTarget.value)}
           >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+            {defaultMatchText}
+          </textarea>
         </div>
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+        <p>
+          Created and maintained by{" "}
+          <a href="https://twitter.com/thecrossbarrsl">Matt Montgomery</a>.{" "}
+          <a href="https://github.com/mattmontgomery/lineup-graphic-builder">
+            Contribute on Github
+          </a>
+          . Something not working? Send me a tweet.
+        </p>
+      </footer>
+      <footer className={styles.footer}>
+        <p>
+          <strong>2021-09-14</strong>: Initial work on Lineup Graphic Builder.
+          Added text interface for modifying players.
+        </p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
