@@ -1,6 +1,14 @@
 import { CircleConfig } from "konva/lib/shapes/Circle";
-import { useContext } from "react";
-import { Stage, Layer, Rect, Text, Circle, Group } from "react-konva";
+import {
+  Stage,
+  Layer,
+  Rect,
+  Text,
+  Circle,
+  Group,
+  Arc,
+  Line,
+} from "react-konva";
 
 function Player({
   x,
@@ -18,7 +26,7 @@ function Player({
         stroke="#00189E"
         fill="#C41F35"
         strokeWidth={radius * 0.2}
-      ></Circle>
+      />
       <Text
         text={playerNumber.toString()}
         x={(x || 0) - radius}
@@ -69,7 +77,59 @@ export default function Graphic({
           height={fullHeight}
           fill="#f0f0f0"
           width={fullWidth}
-        ></Rect>
+        />
+      </Layer>
+      <Layer>
+        <Rect
+          x={25}
+          y={-25}
+          width={fullWidth - 50}
+          height={fullHeight - 50}
+          stroke="#ddd"
+          strokeWidth={8}
+        />
+        <Rect
+          x={radius * 6}
+          y={fullHeight * 0.75}
+          width={fullWidth - radius * 12}
+          height={fullHeight * 0.15}
+          stroke="#ddd"
+          fill="#f0f0f0"
+          strokeWidth={8}
+        />
+        <Rect
+          x={radius * 8}
+          y={fullHeight * 0.825}
+          width={fullWidth - radius * 16}
+          height={fullHeight * 0.075}
+          stroke="#ddd"
+          strokeWidth={8}
+        />
+        <Arc
+          strokeWidth={8}
+          stroke="#ddd"
+          x={fullWidth / 2}
+          y={fullHeight * 0.75}
+          width={200}
+          angle={180}
+          innerRadius={1}
+          outerRadius={25}
+          rotationDeg={180}
+        />
+        <Line
+          points={[25, fullHeight * 0.2, fullWidth - 25, fullHeight * 0.2]}
+          stroke="#ddd"
+          strokeWidth={8}
+          height={20}
+          width={fullWidth}
+        />
+        <Circle
+          height={150}
+          stroke="#ddd"
+          strokeWidth={8}
+          x={fullWidth / 2}
+          y={fullHeight * 0.2}
+        />
       </Layer>
       <Layer x={25} y={25}>
         <Text
@@ -77,7 +137,7 @@ export default function Graphic({
           fontSize={radius * 0.75}
           fontStyle="bold"
           fontFamily="Helvetica Neue"
-          width={fullWidth - 50}
+          width={fullWidth - 75}
           align="right"
         />
         <Text
@@ -85,7 +145,7 @@ export default function Graphic({
           fontSize={radius * 0.75}
           fontFamily="Helvetica Neue"
           y={radius}
-          width={fullWidth - 50}
+          width={fullWidth - 75}
           align="right"
         />
         <Text
@@ -93,7 +153,7 @@ export default function Graphic({
           fontSize={radius * 0.75}
           fontFamily="Helvetica Neue"
           y={radius * 2}
-          width={fullWidth - 50}
+          width={fullWidth - 75}
           align="right"
         />
         <Text
