@@ -61,11 +61,10 @@ const Home: NextPage = () => {
         <div className={styles.section}>
           <h3>Lineup input</h3>
           <textarea
+            defaultValue={defaultText}
             className={styles.textarea}
             onChange={(ev) => setLineup(ev.currentTarget.value)}
-          >
-            {defaultText}
-          </textarea>
+          />
           <p className={styles.helperText}>
             Formatting: <code>Player Name|Number|position</code>. Separate
             players in one by commas.
@@ -78,30 +77,12 @@ const Home: NextPage = () => {
         <div className={styles.section}>
           <h3>Match Detail input</h3>
           <textarea
+            defaultValue={defaultMatchText}
             className={styles.textarea}
             onChange={(ev) => setMatchDetail(ev.currentTarget.value)}
-          >
-            {defaultMatchText}
-          </textarea>
+          />
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <p>
-          Created and maintained by{" "}
-          <a href="https://twitter.com/thecrossbarrsl">Matt Montgomery</a>.{" "}
-          <a href="https://github.com/mattmontgomery/lineup-graphic-builder">
-            Contribute on Github
-          </a>
-          . Something not working? Send me a tweet.
-        </p>
-      </footer>
-      <footer className={styles.footer}>
-        <p>
-          <strong>2021-09-14</strong>: Initial work on Lineup Graphic Builder.
-          Added text interface for modifying players.
-        </p>
-      </footer>
     </div>
   );
 };
