@@ -66,7 +66,7 @@ export default function Graphic({
   matchDate: string;
   subTitle: string;
 }): React.ReactElement {
-  const fullHeight = 150 + players.length * radius * 5 - radius;
+  const fullHeight = 150 - radius + players.length * radius * 5;
   const fullWidth = radius * 25;
   return (
     <Stage width={fullWidth} height={fullHeight}>
@@ -158,10 +158,10 @@ export default function Graphic({
             align="right"
           />
           <Text
-            text={`lineup-graphic-builder.vercel.app`}
+            text={`lineup.tools.football`}
             fontSize={radius * 0.5}
             fontFamily="Helvetica Neue"
-            y={fullHeight - 50}
+            y={fullHeight - 90}
             width={fullWidth - 50}
             align="right"
           />
