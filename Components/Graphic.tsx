@@ -69,7 +69,7 @@ export default function Graphic({
   subTitle: string;
   onPlayerClick: (idx: number) => void;
 }): React.ReactElement {
-  const fullHeight = 150 - radius + players.length * radius * 5;
+  const fullHeight = 150 - radius + players.length * radius * 4.5;
   const fullWidth = radius * 25;
   return (
     <Stage width={fullWidth} height={fullHeight}>
@@ -170,7 +170,7 @@ export default function Graphic({
         </Group>
         <Group x={radius * 4} y={150}>
           {players.map((group, idx) => (
-            <Group key={idx} y={radius * 5 * idx}>
+            <Group key={idx} y={radius * 4.5 * idx}>
               {group.map((player, idx) => (
                 <Player
                   key={idx}
