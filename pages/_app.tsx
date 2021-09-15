@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import NavStyles from "../styles/Nav.module.css";
 import Link from "next/link";
 import { createTheme, ThemeProvider } from "@material-ui/core";
@@ -10,6 +11,9 @@ const theme = createTheme();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
+      <Head>
+        <meta name="viewport" content="initial-scale=.5, width=device-width" />
+      </Head>
       <div>
         <nav className={NavStyles.ExternalNav}>
           <strong>Soccer Blogger Tools</strong>
