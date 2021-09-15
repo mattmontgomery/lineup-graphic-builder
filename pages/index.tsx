@@ -20,6 +20,8 @@ import {
   FORMATION_POSITION_NAMES,
 } from "../utils/formation";
 
+import { BlockPicker, ChromePicker, SliderPicker } from "react-color";
+
 const defaultMatchText = `San Jose Earthquakes vs. Real Salt Lake
 Sept. 15, 2021, Avaya Stadium
 Real Salt Lake projected lineup
@@ -131,6 +133,9 @@ const Home: NextPage = () => {
     ),
   ].reverse();
 
+  const [themeFill, setThemeFill] = useState<string>("#C41F35");
+  const [themeStroke, setThemeStroke] = useState<string>("#00189E");
+
   const [matchTitle, matchDate, subTitle] = matchDetail.split("\n");
   return (
     <div className={styles.container}>
@@ -159,28 +164,43 @@ const Home: NextPage = () => {
           onPlayerClick={(idx) => {
             document.getElementById(`outfield-${idx}`)?.focus();
           }}
+          themeColors={{
+            fill: themeFill,
+            stroke: themeStroke,
+          }}
         />
         <div className={styles.formSection}>
+          <h3>Player Color</h3>
+          <SliderPicker
+            color={themeFill}
+            onChange={(color) => setThemeFill(color.hex)}
+          />
+          <h3>Player Outline</h3>
+          <SliderPicker
+            color={themeStroke}
+            onChange={(color) => setThemeStroke(color.hex)}
+          />
+
           <form noValidate autoComplete="off">
-            <Box m={1}>
-              <FormGroup row>
-                <Select
-                  autoWidth
-                  variant="outlined"
-                  defaultValue="4-2-3-1"
-                  onChange={(ev) =>
-                    setFormation(ev.target.value as Lineup.Formations)
-                  }
-                  IconComponent={() => <SportsSoccer />}
-                >
-                  {Object.keys(FORMATION_POSITIONS).map((formation, idx) => (
-                    <MenuItem key={idx} value={formation}>
-                      {formation}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormGroup>
-            </Box>
+            <h3>Formation</h3>
+            <FormGroup row>
+              <Select
+                autoWidth
+                variant="outlined"
+                defaultValue="4-2-3-1"
+                onChange={(ev) =>
+                  setFormation(ev.target.value as Lineup.Formations)
+                }
+                IconComponent={() => <SportsSoccer />}
+              >
+                {Object.keys(FORMATION_POSITIONS).map((formation, idx) => (
+                  <MenuItem key={idx} value={formation}>
+                    {formation}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormGroup>
+            <h3>Players</h3>
             {playerState.map((player, idx) => {
               return (
                 <PlayerInput

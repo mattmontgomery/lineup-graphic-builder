@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <footer className={NavStyles.Changelog}>
           <p>
             <strong>2021-09-15</strong>: Revamped user input interface, added
-            formation dropdown
+            formation dropdown, added color selector for player circles
           </p>
           <p>
             <strong>2021-09-14</strong>: Initial work on Lineup Graphic Builder.

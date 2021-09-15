@@ -17,15 +17,19 @@ function Player({
   name = "",
   playerNumber = "",
   onClick,
-}: CircleConfig & Lineup.Player & { onClick: () => void }): React.ReactElement {
+  themeColors = {},
+}: CircleConfig &
+  Lineup.Player & {
+    onClick: () => void;
+  } & Lineup.ThemeColors): React.ReactElement {
   return (
     <Group onClick={onClick}>
       <Circle
         x={x}
         y={y}
         radius={radius}
-        stroke="#00189E"
-        fill="#C41F35"
+        stroke={themeColors.stroke || "#00189E"}
+        fill={themeColors.fill || "#C41F35"}
         strokeWidth={radius * 0.2}
       />
       <Text
@@ -61,6 +65,7 @@ export default function Graphic({
   matchDate = "",
   subTitle = "",
   onPlayerClick,
+  themeColors = {},
 }: {
   players: Lineup.Group[];
   radius: number;
@@ -68,6 +73,7 @@ export default function Graphic({
   matchDate: string;
   subTitle: string;
   onPlayerClick: (idx: number) => void;
+  themeColors: Lineup.ThemeColors;
 }): React.ReactElement {
   const fullHeight = 150 - radius + players.length * radius * 4.5;
   const fullWidth = radius * 25;
@@ -180,6 +186,7 @@ export default function Graphic({
                   playerNumber={player.playerNumber}
                   radius={radius}
                   onClick={() => onPlayerClick(player.idx)}
+                  themeColors={themeColors}
                 />
               ))}
             </Group>
