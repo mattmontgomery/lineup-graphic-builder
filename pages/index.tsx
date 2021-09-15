@@ -165,17 +165,19 @@ const Home: NextPage = () => {
             <Box m={1}>
               <FormGroup row>
                 <Select
+                  autoWidth
                   variant="outlined"
                   defaultValue="4-2-3-1"
-                  label="Formation"
                   onChange={(ev) =>
                     setFormation(ev.target.value as Lineup.Formations)
                   }
                   IconComponent={() => <SportsSoccer />}
                 >
-                  <MenuItem value="4-2-3-1">4-2-3-1</MenuItem>
-                  <MenuItem value="3-4-1-2">3-4-1-2</MenuItem>
-                  <MenuItem value="4-4-2">4-4-2</MenuItem>
+                  {Object.keys(FORMATION_POSITIONS).map((formation, idx) => (
+                    <MenuItem key={idx} value={formation}>
+                      {formation}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormGroup>
             </Box>
