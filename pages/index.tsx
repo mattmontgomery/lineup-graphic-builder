@@ -131,8 +131,6 @@ const Home: NextPage = () => {
     ),
   ].reverse();
 
-  console.log({ players, formationLayers: FORMATION_LAYERS[formation] });
-
   const [matchTitle, matchDate, subTitle] = matchDetail.split("\n");
   return (
     <div className={styles.container}>
