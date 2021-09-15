@@ -1,16 +1,24 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import {
+  FormControl,
+  FormGroup,
+  MenuItem,
+  Select,
+  Box,
+  TextField,
+} from "@material-ui/core";
 
-const defaultText = `Rubin|14|center
-Rusnak|11|center-left-3, Kreilach|8|center, Menendez|10|center-right-3
-Ruiz|6|center-left, Besler|13|center-right
-Morgan|3|left, Glad|15|center-left, Silva|30|center-right, Herrera|22|right
-Ochoa|1|center`;
+import { SportsSoccer } from "@material-ui/icons";
+import {
+  FORMATION_LAYERS,
+  FORMATION_POSITIONS,
+  FORMATION_POSITION_NAMES,
+} from "../utils/formation";
 
 const defaultMatchText = `San Jose Earthquakes vs. Real Salt Lake
 Sept. 15, 2021, Avaya Stadium
@@ -20,24 +28,111 @@ Real Salt Lake projected lineup
 const GraphicComponent = dynamic(() => import("../Components/Graphic"), {
   ssr: false,
 });
-const Home: NextPage = () => {
-  const [lineup, setLineup] = useState<string>(defaultText);
-  const [matchDetail, setMatchDetail] = useState<string>(defaultMatchText);
 
-  const players = lineup
-    ?.split(`\n`)
-    .filter(Boolean)
-    .map((line): Lineup.Group => {
-      return line
-        .split(",")
-        .filter(Boolean)
-        .map((playerText) => {
-          const [name, playerNumber, position] = playerText
-            .trim()
-            .split("|") as [string, string, Lineup.PositionValues];
-          return { name, playerNumber, position };
-        });
-    });
+const PlayerInput = ({
+  player,
+  idx,
+  positionTitle,
+  showPosition = true,
+  onChange = () => {},
+}: {
+  player: Lineup.PositionedPlayer;
+  idx: number;
+  positionTitle?: string | null;
+  showPosition?: boolean;
+  onChange: (field: string, value: string) => void;
+}): React.ReactElement => (
+  <FormGroup row>
+    <Box m={1}>
+      <FormControl>
+        <TextField
+          onChange={(ev) => onChange("name", ev.currentTarget.value)}
+          id={`outfield-${idx}`}
+          variant="outlined"
+          label={positionTitle}
+          defaultValue={player.name}
+        />
+      </FormControl>
+    </Box>
+    <Box m={1}>
+      <FormControl>
+        <TextField
+          onChange={(ev) => onChange("playerNumber", ev.currentTarget.value)}
+          id={`outfield-no-${idx}`}
+          variant="outlined"
+          label="Player No."
+          defaultValue={player.playerNumber}
+        />
+      </FormControl>
+    </Box>
+    <Box m={1}>
+      {showPosition && (
+        <TextField
+          select
+          onChange={(ev) => {
+            onChange("position", ev.target.value as string);
+          }}
+          label="Position"
+          value={player.position || "center"}
+          variant="outlined"
+        >
+          <MenuItem value="left">Left</MenuItem>
+          <MenuItem value="center-left">Left-Center</MenuItem>
+          <MenuItem value="center-left-3">Left-Center (three)</MenuItem>
+          <MenuItem value="center">Center</MenuItem>
+          <MenuItem value="center-right-3">Right-Center (three)</MenuItem>
+          <MenuItem value="center-right">Right-Center</MenuItem>
+          <MenuItem value="right">Right</MenuItem>
+        </TextField>
+      )}
+    </Box>
+  </FormGroup>
+);
+
+const EMPTY_PLAYER = (
+  formation: Lineup.Formations,
+  idx: number
+): Lineup.PositionedPlayer => ({
+  idx,
+  name: "",
+  position: FORMATION_POSITIONS[formation][idx],
+  playerNumber: "",
+});
+
+const Home: NextPage = () => {
+  const [matchDetail, setMatchDetail] = useState<string>(defaultMatchText);
+  const [formation, setFormation] = useState<Lineup.Formations>("4-2-3-1");
+
+  const [playerState, setPlayerState] = useState<Lineup.PositionedPlayer[]>([
+    EMPTY_PLAYER(formation, 0),
+    EMPTY_PLAYER(formation, 1),
+    EMPTY_PLAYER(formation, 2),
+    EMPTY_PLAYER(formation, 3),
+    EMPTY_PLAYER(formation, 4),
+    EMPTY_PLAYER(formation, 5),
+    EMPTY_PLAYER(formation, 6),
+    EMPTY_PLAYER(formation, 7),
+    EMPTY_PLAYER(formation, 8),
+    EMPTY_PLAYER(formation, 9),
+    EMPTY_PLAYER(formation, 10),
+  ]);
+
+  const playersInFormation = playerState.map((player, idx) => ({
+    ...player,
+    position: FORMATION_POSITIONS[formation][idx],
+  }));
+
+  const players: Lineup.Group[] = [
+    ...FORMATION_LAYERS[formation].map((_, idx) =>
+      playersInFormation.slice(
+        FORMATION_LAYERS[formation][idx][0],
+        FORMATION_LAYERS[formation][idx][1]
+      )
+    ),
+  ].reverse();
+
+  console.log({ players, formationLayers: FORMATION_LAYERS[formation] });
+
   const [matchTitle, matchDate, subTitle] = matchDetail.split("\n");
   return (
     <div className={styles.container}>
@@ -63,24 +158,53 @@ const Home: NextPage = () => {
           matchDate={matchDate}
           matchTitle={matchTitle}
           subTitle={subTitle}
+          onPlayerClick={(idx) => {
+            document.getElementById(`outfield-${idx}`)?.focus();
+          }}
         />
-
-        <div className={styles.section}>
-          <h3>Lineup input</h3>
-          <textarea
-            defaultValue={defaultText}
-            className={styles.textarea}
-            onChange={(ev) => setLineup(ev.currentTarget.value)}
-          />
-          <p className={styles.helperText}>
-            Formatting: <code>Player Name|Number|position</code>. Separate
-            players in one by commas.
-          </p>
-          <p className={styles.helperText}>
-            {`Position is one of "left", "center-left", "center-left-3", "center",
-            "center-right-3", "center-right", "right"`}
-          </p>
+        <div className={styles.formSection}>
+          <form noValidate autoComplete="off">
+            <Box m={1}>
+              <FormGroup row>
+                <Select
+                  variant="outlined"
+                  defaultValue="4-2-3-1"
+                  label="Formation"
+                  onChange={(ev) =>
+                    setFormation(ev.target.value as Lineup.Formations)
+                  }
+                  IconComponent={() => <SportsSoccer />}
+                >
+                  <MenuItem value="4-2-3-1">4-2-3-1</MenuItem>
+                  <MenuItem value="3-4-1-2">3-4-1-2</MenuItem>
+                  <MenuItem value="4-4-2">4-4-2</MenuItem>
+                </Select>
+              </FormGroup>
+            </Box>
+            {playerState.map((player, idx) => {
+              return (
+                <PlayerInput
+                  player={player}
+                  key={idx}
+                  idx={idx}
+                  positionTitle={FORMATION_POSITION_NAMES[formation][idx]}
+                  showPosition={false}
+                  onChange={(field, value) => {
+                    setPlayerState([
+                      ...playerState.slice(0, idx),
+                      {
+                        ...playerState[idx],
+                        [field]: value,
+                      },
+                      ...playerState.slice(idx + 1),
+                    ]);
+                  }}
+                />
+              );
+            })}
+          </form>
         </div>
+
         <div className={styles.section}>
           <h3>Match Detail input</h3>
           <textarea

@@ -14,11 +14,12 @@ function Player({
   x,
   y,
   radius = 25,
-  name = "Grabavoy",
-  playerNumber = "44",
-}: CircleConfig & Lineup.Player): React.ReactElement {
+  name = "",
+  playerNumber = "",
+  onClick,
+}: CircleConfig & Lineup.Player & { onClick: () => void }): React.ReactElement {
   return (
-    <Group>
+    <Group onClick={onClick}>
       <Circle
         x={x}
         y={y}
@@ -59,12 +60,14 @@ export default function Graphic({
   matchTitle = "",
   matchDate = "",
   subTitle = "",
+  onPlayerClick,
 }: {
   players: Lineup.Group[];
   radius: number;
   matchTitle: string;
   matchDate: string;
   subTitle: string;
+  onPlayerClick: (idx: number) => void;
 }): React.ReactElement {
   const fullHeight = 150 - radius + players.length * radius * 5;
   const fullWidth = radius * 25;
@@ -171,10 +174,12 @@ export default function Graphic({
               {group.map((player, idx) => (
                 <Player
                   key={idx}
+                  idx={player.idx}
                   x={getPosition(player.position, radius)}
                   name={player.name}
                   playerNumber={player.playerNumber}
                   radius={radius}
+                  onClick={() => onPlayerClick(player.idx)}
                 />
               ))}
             </Group>

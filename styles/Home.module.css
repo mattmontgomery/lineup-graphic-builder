@@ -104,7 +104,8 @@
   }
 }
 
-.section {
+.section,
+.formSection {
   width: 100%;
   padding: 2rem;
 }

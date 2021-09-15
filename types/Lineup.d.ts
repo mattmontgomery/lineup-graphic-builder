@@ -1,11 +1,13 @@
 declare namespace Lineup {
   declare type Player = {
+    idx: number;
     name: string;
     playerNumber: number | string;
   };
   declare type Position = {
     position: PositionValues;
   };
+  declare type PositionedPlayer = Lineup.Player & Lineup.Position;
   declare type PositionValues =
     | "left"
     | "right"
@@ -14,5 +16,6 @@ declare namespace Lineup {
     | "center-right"
     | "center-left-3"
     | "center-right-3";
-  declare type Group = (Player & Position)[];
+  declare type Group = PositionedPlayer[];
+  declare type Formations = "4-2-3-1" | "3-4-1-2" | "4-4-2";
 }
