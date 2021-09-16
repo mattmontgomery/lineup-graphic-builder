@@ -182,11 +182,13 @@ const Home: NextPage = () => {
                     setFormation(ev.target.value as Lineup.Formations)
                   }
                 >
-                  {Object.keys(FORMATION_POSITIONS).map((formation, idx) => (
-                    <MenuItem key={idx} value={formation}>
-                      {formation}
-                    </MenuItem>
-                  ))}
+                  {Object.keys(FORMATION_POSITIONS)
+                    .sort()
+                    .map((formation, idx) => (
+                      <MenuItem key={idx} value={formation}>
+                        {formation}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormGroup>
               <h3>Players</h3>
