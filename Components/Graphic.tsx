@@ -62,6 +62,7 @@ function Player({
         height={radius * 2}
         fontSize={radius * 0.85}
         fontStyle="bold"
+        fontFamily="Roboto"
         fill="white"
       />
       <Text
@@ -71,7 +72,7 @@ function Player({
         x={(x || 0) - radius * 4}
         y={(y || 0) + radius + 10}
         fontSize={radius * 0.75}
-        fontFamily="Helvetica Neue"
+        fontFamily="Roboto"
         fontStyle="Bold"
       />
     </Group>
