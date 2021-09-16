@@ -227,6 +227,7 @@ export default function Graphic({
       </Stage>
       <Box m={1} style={{ textAlign: "right" }}>
         <Button
+          variant="outlined"
           onClick={() => {
             const uri = (stage.current as any)?.toDataURL({
               pixelRatio: 3,
@@ -234,7 +235,7 @@ export default function Graphic({
             downloadURI(uri, `lineup-${new Date().getTime()}.png`);
           }}
         >
-          Download
+          Download image
         </Button>
       </Box>
     </div>

@@ -135,22 +135,22 @@ const Home: NextPage = () => {
               Because sometimes, you want to build a lineup graphic.
               <SportsSoccer />
             </p>
-          </main>
 
-          <GraphicComponent
-            radius={25}
-            players={players}
-            matchDate={matchDate}
-            matchTitle={matchTitle}
-            subTitle={subTitle}
-            onPlayerClick={(idx) => {
-              document.getElementById(`outfield-${idx}`)?.focus();
-            }}
-            themeColors={{
-              fill: themeFill,
-              stroke: themeStroke,
-            }}
-          />
+            <GraphicComponent
+              radius={25}
+              players={players}
+              matchDate={matchDate}
+              matchTitle={matchTitle}
+              subTitle={subTitle}
+              onPlayerClick={(idx) => {
+                document.getElementById(`outfield-${idx}`)?.focus();
+              }}
+              themeColors={{
+                fill: themeFill,
+                stroke: themeStroke,
+              }}
+            />
+          </main>
         </Grid>
         <Grid item lg={6}>
           <div className={styles.formSection}>
