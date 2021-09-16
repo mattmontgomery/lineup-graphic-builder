@@ -41,7 +41,7 @@ export const FORMATION_POSITIONS: Record<
     "center-left",
     "center-right",
   ],
-  ["4-1-2-1-2"]: [
+  ["4-4-2 Diamond"]: [
     "center",
     "left",
     "center-left",
@@ -53,6 +53,32 @@ export const FORMATION_POSITIONS: Record<
     "center",
     "center-left",
     "center-right",
+  ],
+  "3-1-4-2": [
+    "center",
+    "center-left-3",
+    "center",
+    "center-right-3",
+    "center",
+    "left",
+    "center-left",
+    "center-right",
+    "right",
+    "center-left",
+    "center-right",
+  ],
+  ["W-M"]: [
+    "center",
+    "center-left-3",
+    "center",
+    "center-right-3",
+    "center-left",
+    "center-right",
+    "center-left",
+    "center-right",
+    "center-left-3",
+    "center",
+    "center-right-3",
   ],
 };
 
@@ -77,13 +103,27 @@ export const FORMATION_LAYERS: Record<Lineup.Formations, [number, number][]> = {
     [5, 9],
     [9, 11],
   ],
-  ["4-1-2-1-2"]: [
+  ["4-4-2 Diamond"]: [
     [0, 1],
     [1, 5],
     [5, 6],
     [6, 8],
     [8, 9],
     [9, 11],
+  ],
+  ["3-1-4-2"]: [
+    [0, 1],
+    [1, 4],
+    [4, 5],
+    [5, 9],
+    [9, 11],
+  ],
+  "W-M": [
+    [0, 1],
+    [1, 4],
+    [4, 6],
+    [6, 8],
+    [8, 11],
   ],
 };
 export const FORMATION_POSITION_NAMES: Record<Lineup.Formations, string[]> = {
@@ -113,6 +153,19 @@ export const FORMATION_POSITION_NAMES: Record<Lineup.Formations, string[]> = {
     "Forward (Left)",
     "Forward (Right)",
   ],
+  ["3-1-4-2"]: [
+    "GK",
+    "CB (Left)",
+    "CB",
+    "CB (Right)",
+    "Defensive Midfield",
+    "Left Wing",
+    "AM (L)",
+    "AM (R)",
+    "Right Wing",
+    "Forward (Left)",
+    "Forward (Right)",
+  ],
   ["4-4-2"]: [
     "GK",
     "Left Back",
@@ -126,7 +179,7 @@ export const FORMATION_POSITION_NAMES: Record<Lineup.Formations, string[]> = {
     "Forward (L)",
     "Forward (R)",
   ],
-  ["4-1-2-1-2"]: [
+  ["4-4-2 Diamond"]: [
     "GK",
     "Left Back",
     "Center Back (L)",
@@ -138,5 +191,18 @@ export const FORMATION_POSITION_NAMES: Record<Lineup.Formations, string[]> = {
     "CAM",
     "Forward (L)",
     "Forward (R)",
+  ],
+  ["W-M"]: [
+    "GK",
+    "Full Back (L)",
+    "Full Back (C)",
+    "Full Back (R)",
+    "Half Back (L)",
+    "Half Back (R)",
+    "Inside Forward (L)",
+    "Inside Forward (R)",
+    "Winger (L)",
+    "Center Forward",
+    "Winger (R)",
   ],
 };

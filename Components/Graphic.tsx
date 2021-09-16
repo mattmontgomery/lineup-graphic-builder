@@ -12,6 +12,8 @@ import {
   Line,
 } from "react-konva";
 
+import styles from "../styles/Home.module.css";
+
 function Player({
   x,
   y,
@@ -25,7 +27,23 @@ function Player({
     onClick: () => void;
   } & Lineup.ThemeColors): React.ReactElement {
   return (
-    <Group onClick={onClick}>
+    <Group
+      onClick={onClick}
+      onTouchEnd={onClick}
+      onMouseEnter={(e) => {
+        // style stage container:
+        const container = e.target?.getStage()?.container();
+        if (typeof container !== "undefined") {
+          container.style.cursor = "pointer";
+        }
+      }}
+      onMouseLeave={(e) => {
+        const container = e.target?.getStage()?.container();
+        if (typeof container !== "undefined") {
+          container.style.cursor = "default";
+        }
+      }}
+    >
       <Circle
         x={x}
         y={y}

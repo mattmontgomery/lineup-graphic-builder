@@ -33,8 +33,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         </footer>
         <footer className={NavStyles.Changelog}>
           <p>
+            <strong>2021-09-16</strong>: Added W-M formation. Updated desktop
+            view. Enhanced form usability. Updated color picker to swatches for
+            ease of use. Quality of life improvements across the board.
+          </p>
+          <p>
             <strong>2021-09-15</strong>: Revamped user input interface, added
-            formation dropdown, added color selector for player circles
+            formation dropdown, added color selector for player circles. Added
+            download button
           </p>
           <p>
             <strong>2021-09-14</strong>: Initial work on Lineup Graphic Builder.
