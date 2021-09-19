@@ -33,6 +33,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         </footer>
         <footer className={NavStyles.Changelog}>
           <p>
+            <strong>2021-09-18</strong>: Added 3-2-3-2 formation..
+          </p>
+          <p>
             <strong>2021-09-16</strong>: Added W-M formation. Updated desktop
             view. Enhanced form usability. Updated color picker to swatches for
             ease of use. Quality of life improvements across the board.
