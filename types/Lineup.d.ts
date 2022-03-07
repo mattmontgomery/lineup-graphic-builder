@@ -24,9 +24,11 @@ declare namespace Lineup {
     | "4-4-2 Diamond"
     | "3-1-4-2"
     | "3-2-3-2"
+    | "3-4-3"
     | "W-M";
   declare type ThemeColors = {
     fill?: string;
     stroke?: string;
+    background?: string;
   };
 }

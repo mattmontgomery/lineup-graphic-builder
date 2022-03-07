@@ -1,6 +1,6 @@
-import { Box, Button, Link } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 import { CircleConfig } from "konva/lib/shapes/Circle";
-import { LegacyRef, useRef } from "react";
+import { useRef } from "react";
 import {
   Stage,
   Layer,
@@ -11,8 +11,6 @@ import {
   Arc,
   Line,
 } from "react-konva";
-
-import styles from "../styles/Home.module.css";
 
 function Player({
   x,
@@ -117,7 +115,7 @@ export default function Graphic({
               x={0}
               y={0}
               height={fullHeight}
-              fill="#f0f0f0"
+              fill={themeColors.background}
               width={fullWidth}
             />
           </Group>
@@ -127,7 +125,7 @@ export default function Graphic({
               y={-25}
               width={fullWidth - 50}
               height={fullHeight - 50}
-              stroke="#ddd"
+              stroke="#fff"
               strokeWidth={8}
             />
             <Rect
@@ -135,38 +133,28 @@ export default function Graphic({
               y={fullHeight - 200}
               width={fullWidth - radius * 12}
               height={125}
-              stroke="#ddd"
+              stroke="#fff"
               strokeWidth={8}
             />
+            {/** goalkeeper box */}
             <Rect
               x={radius * 8}
               y={fullHeight - 150}
               width={fullWidth - radius * 16}
               height={75}
-              stroke="#ddd"
+              stroke="#fff"
               strokeWidth={8}
-            />
-            <Arc
-              strokeWidth={8}
-              stroke="#ddd"
-              x={fullWidth / 2}
-              y={fullHeight - 200}
-              width={200}
-              angle={180}
-              innerRadius={1}
-              outerRadius={25}
-              rotationDeg={180}
             />
             <Line
               points={[25, fullHeight * 0.2, fullWidth - 25, fullHeight * 0.2]}
-              stroke="#ddd"
+              stroke="#fff"
               strokeWidth={8}
               height={20}
               width={fullWidth}
             />
             <Circle
               height={150}
-              stroke="#ddd"
+              stroke="#fff"
               strokeWidth={8}
               x={fullWidth / 2}
               y={fullHeight * 0.2}
@@ -252,9 +240,9 @@ function getPosition(position: Lineup.PositionValues, radius: number) {
     case "center-right":
       return radius * 12 - radius / 2;
     case "center-left-3":
-      return radius * 2 - radius / 2;
+      return radius * 3 - radius / 3;
     case "center-right-3":
-      return radius * 16 - radius / 2;
+      return radius * 15 - radius / 3;
     case "right":
       return radius * 18 - radius / 2;
     case "left":

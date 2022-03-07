@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import NavStyles from "../styles/Nav.module.css";
 import Link from "next/link";
-import { createTheme, ThemeProvider } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@mui/material";
 import "../styles/globals.css";
 
 const theme = createTheme();
@@ -33,7 +33,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         </footer>
         <footer className={NavStyles.Changelog}>
           <p>
-            <strong>2021-09-18</strong>: Added 3-2-3-2 formation..
+            <strong>2022-03-07</strong>: Added 3-4-3 formation, updated packages
+            and dependencies. Refactored to use local storage.
+          </p>
+          <p>
+            <strong>2021-09-18</strong>: Added 3-2-3-2 formation.
           </p>
           <p>
             <strong>2021-09-16</strong>: Added W-M formation. Updated desktop

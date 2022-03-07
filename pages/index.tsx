@@ -3,16 +3,17 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FormGroup,
   MenuItem,
   Select,
   TextField,
   Grid,
-} from "@material-ui/core";
+  FormLabel,
+} from "@mui/material";
 
-import { SportsSoccer } from "@material-ui/icons";
+import { SportsSoccer } from "@mui/icons-material";
 import {
   FORMATION_LAYERS,
   FORMATION_POSITIONS,
@@ -20,11 +21,29 @@ import {
 } from "../utils/formation";
 
 import { SwatchesPicker } from "react-color";
+import useLocalStorage from "../utils/useLocalStorage";
+import { useDebounce } from "../utils/useDebounce";
 
 const defaultMatchText = `____ vs. ____
 Date, Stadium
 Projected lineup
 `;
+
+function getEmptyPlayerState(formation: Lineup.Formations) {
+  return [
+    EMPTY_PLAYER(formation, 0),
+    EMPTY_PLAYER(formation, 1),
+    EMPTY_PLAYER(formation, 2),
+    EMPTY_PLAYER(formation, 3),
+    EMPTY_PLAYER(formation, 4),
+    EMPTY_PLAYER(formation, 5),
+    EMPTY_PLAYER(formation, 6),
+    EMPTY_PLAYER(formation, 7),
+    EMPTY_PLAYER(formation, 8),
+    EMPTY_PLAYER(formation, 9),
+    EMPTY_PLAYER(formation, 10),
+  ];
+}
 
 const GraphicComponent = dynamic(() => import("../Components/Graphic"), {
   ssr: false,
@@ -34,7 +53,6 @@ const PlayerInput = ({
   player,
   idx,
   positionTitle,
-  showPosition = true,
   onChange = () => {},
 }: {
   player: Lineup.PositionedPlayer;
@@ -46,22 +64,24 @@ const PlayerInput = ({
   <FormGroup row>
     <Grid spacing={1} container style={{ marginBottom: ".25rem" }}>
       <Grid item xs={6}>
+        <FormLabel sx={{ fontSize: 14 }}>{positionTitle}</FormLabel>
         <TextField
           fullWidth
+          hiddenLabel
           onChange={(ev) => onChange("name", ev.currentTarget.value)}
           id={`outfield-${idx}`}
-          variant="outlined"
-          label={positionTitle}
+          variant="filled"
           defaultValue={player.name}
         />
       </Grid>
       <Grid item xs={6}>
+        <FormLabel sx={{ fontSize: 14 }}>Number</FormLabel>
         <TextField
           fullWidth
+          hiddenLabel
           onChange={(ev) => onChange("playerNumber", ev.currentTarget.value)}
           id={`outfield-no-${idx}`}
-          variant="outlined"
-          label="Player No."
+          variant="filled"
           defaultValue={player.playerNumber}
         />
       </Grid>
@@ -81,21 +101,26 @@ const EMPTY_PLAYER = (
 
 const Home: NextPage = () => {
   const [matchDetail, setMatchDetail] = useState<string>(defaultMatchText);
-  const [formation, setFormation] = useState<Lineup.Formations>("4-2-3-1");
+  const [defaultFormation, setDefaultFormation] =
+    useLocalStorage<Lineup.Formations>("formation", "4-2-3-1");
+  const [formation, setFormation] =
+    useState<Lineup.Formations>(defaultFormation);
 
-  const [playerState, setPlayerState] = useState<Lineup.PositionedPlayer[]>([
-    EMPTY_PLAYER(formation, 0),
-    EMPTY_PLAYER(formation, 1),
-    EMPTY_PLAYER(formation, 2),
-    EMPTY_PLAYER(formation, 3),
-    EMPTY_PLAYER(formation, 4),
-    EMPTY_PLAYER(formation, 5),
-    EMPTY_PLAYER(formation, 6),
-    EMPTY_PLAYER(formation, 7),
-    EMPTY_PLAYER(formation, 8),
-    EMPTY_PLAYER(formation, 9),
-    EMPTY_PLAYER(formation, 10),
-  ]);
+  useEffect(() => {
+    setFormation(defaultFormation);
+  }, [defaultFormation]);
+  const [lsPlayerState, setLsPlayerState] = useLocalStorage<
+    Lineup.PositionedPlayer[]
+  >("player-state", getEmptyPlayerState(formation));
+
+  const [playerState, setPlayerState] = useState<Lineup.PositionedPlayer[]>(
+    lsPlayerState ? lsPlayerState : getEmptyPlayerState(formation)
+  );
+
+  const debouncedPlayerState = useDebounce<Lineup.PositionedPlayer[]>(
+    playerState,
+    1000
+  );
 
   const playersInFormation = playerState.map((player, idx) => ({
     ...player,
@@ -111,8 +136,22 @@ const Home: NextPage = () => {
     ),
   ].reverse();
 
-  const [themeFill, setThemeFill] = useState<string>("#C41F35");
-  const [themeStroke, setThemeStroke] = useState<string>("#00189E");
+  const [themeFill, setThemeFill] = useLocalStorage<string>(
+    "theme-fill",
+    "#C41F35"
+  );
+  const [themeStroke, setThemeStroke] = useLocalStorage<string>(
+    "theme-stroke",
+    "#00189E"
+  );
+  const [themeBackground, setThemeBackground] = useLocalStorage<string>(
+    "theme-background",
+    "#f0f0f0"
+  );
+
+  useEffect(() => {
+    setLsPlayerState(debouncedPlayerState);
+  }, [debouncedPlayerState, setLsPlayerState]);
 
   const [matchTitle, matchDate, subTitle] = matchDetail.split("\n");
   return (
@@ -127,7 +166,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Grid container>
-        <Grid item lg={6}>
+        <Grid item lg={6} md={8}>
           <main className={styles.main}>
             <h1 className={styles.title}>Lineup Graphic Builder</h1>
 
@@ -148,45 +187,34 @@ const Home: NextPage = () => {
               themeColors={{
                 fill: themeFill,
                 stroke: themeStroke,
+                background: themeBackground,
               }}
             />
           </main>
         </Grid>
-        <Grid item lg={6}>
+        <Grid item lg={6} md={4}>
           <div className={styles.formSection}>
-            <Grid container spacing={2}>
-              <Grid item md={6}>
-                <h3>Player Color</h3>
-                <SwatchesPicker
-                  color={themeFill}
-                  onChange={(color) => setThemeFill(color.hex)}
-                />
-              </Grid>
-              <Grid item md={6}>
-                <h3>Player Outline</h3>
-                <SwatchesPicker
-                  color={themeStroke}
-                  onChange={(color) => setThemeStroke(color.hex)}
-                />
-              </Grid>
-            </Grid>
-
             <form noValidate autoComplete="off">
               <h3>Formation</h3>
               <FormGroup row>
                 <Select
                   fullWidth
                   variant="outlined"
-                  defaultValue="4-2-3-1"
-                  onChange={(ev) =>
-                    setFormation(ev.target.value as Lineup.Formations)
-                  }
+                  defaultValue={formation}
+                  onChange={(ev) => {
+                    setFormation(ev.target.value as Lineup.Formations);
+                    setDefaultFormation(ev.target.value as Lineup.Formations);
+                  }}
                 >
                   {Object.keys(FORMATION_POSITIONS)
                     .sort()
-                    .map((formation, idx) => (
-                      <MenuItem key={idx} value={formation}>
-                        {formation}
+                    .map((formationOption, idx) => (
+                      <MenuItem
+                        key={idx}
+                        value={formationOption}
+                        selected={formationOption === formation}
+                      >
+                        {formationOption}
                       </MenuItem>
                     ))}
                 </Select>
@@ -223,6 +251,29 @@ const Home: NextPage = () => {
               </FormGroup>
             </form>
           </div>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item lg={4} md={6}>
+            <h3>Player Color</h3>
+            <SwatchesPicker
+              color={themeFill}
+              onChange={(color) => setThemeFill(color.hex)}
+            />
+          </Grid>
+          <Grid item lg={4} md={6}>
+            <h3>Player Outline</h3>
+            <SwatchesPicker
+              color={themeStroke}
+              onChange={(color) => setThemeStroke(color.hex)}
+            />
+          </Grid>
+          <Grid item lg={4} md={6}>
+            <h3>Background Color</h3>
+            <SwatchesPicker
+              color={themeBackground}
+              onChange={(color) => setThemeBackground(color.hex)}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </div>
