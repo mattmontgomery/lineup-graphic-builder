@@ -14,7 +14,7 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.1",
     "husky": "^7.0.4",
-    "konva": "^8.3.4",
+    "konva": "^8.3.5",
     "next": "^12.1.0",
     "react": "~17.0",
     "react-color": "~2.19",
