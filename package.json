@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.24",
-    "@types/react": "^17.0.43",
+    "@types/react": "^18.0.7",
     "@types/react-color": "^3.0.6",
     "eslint": "~8.13",
     "eslint-config-next": "^12.1.5",
