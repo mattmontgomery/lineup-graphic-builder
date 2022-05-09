@@ -13,7 +13,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.4",
-    "husky": "^7.0.4",
+    "husky": "^8.0.1",
     "konva": "^8.3.8",
     "next": "^12.1.6",
     "react": "~17.0",
